@@ -4,11 +4,11 @@ resource "aws_security_group" "nginx_sg" {
   vpc_id      = var.vpc_id
 
   ingress {
-    description      = "HTTP from ALB"
-    from_port        = 80
-    to_port          = 80
-    protocol         = "tcp"
-    security_groups  = [aws_lb.main.security_group_id]
+    description     = "HTTP from ALB"
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]   # FIXED HERE
   }
 
   egress {
@@ -18,6 +18,7 @@ resource "aws_security_group" "nginx_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
 
 resource "aws_instance" "nginx" {
   count                       = 2
